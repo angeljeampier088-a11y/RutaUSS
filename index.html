@@ -5,30 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>RutaUSS — Encuentra tu camino</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
+/* ── VARIABLES - TEMA USS CLARO ── */
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --c-bg:#0a0f1e;
-  --c-surface:#111827;
-  --c-surface2:#1a2235;
-  --c-border:#1f2d45;
-  --c-accent:#3b82f6;
-  --c-accent2:#06b6d4;
-  --c-success:#10b981;
-  --c-warn:#f59e0b;
-  --c-danger:#ef4444;
-  --c-text:#f1f5f9;
-  --c-muted:#64748b;
-  --c-muted2:#94a3b8;
-  --font-head:'Space Grotesk',sans-serif;
-  --font-body:'DM Sans',sans-serif;
-  --radius:12px;
-  --radius-lg:18px;
+  --c-bg: #f3f4f6;
+  --c-surface: #ffffff;
+  --c-surface2: #f8fafc;
+  --c-border: #e2e8f0;
+  --c-accent: #662483;
+  --c-accent-hover: #501b68;
+  --c-accent2: #0284c7;
+  --c-success: #10b981;
+  --c-warn: #f59e0b;
+  --c-danger: #ef4444;
+  --c-text: #1e293b;
+  --c-muted: #64748b;
+  --c-muted2: #94a3b8;
+  
+  --font-head:'Montserrat', sans-serif;
+  --font-body:'Inter', sans-serif;
+  
+  --radius:8px;
+  --radius-lg:12px;
   --transition:0.2s cubic-bezier(0.4,0,0.2,1);
 }
+
 body{background:var(--c-bg);color:var(--c-text);font-family:var(--font-body);font-size:15px;line-height:1.6;min-height:100vh;overflow-x:hidden}
 .app{display:flex;flex-direction:column;min-height:100vh}
 
@@ -37,212 +42,236 @@ body{background:var(--c-bg);color:var(--c-text);font-family:var(--font-body);fon
 .screen.active{display:flex}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── AUTH SCREENS ── */
-.auth-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:2rem;background:var(--c-bg)}
-.auth-logo{font-family:var(--font-head);font-size:2rem;font-weight:700;color:var(--c-accent);letter-spacing:-0.5px;margin-bottom:0.25rem}
-.auth-logo span{color:var(--c-accent2)}
-.auth-tagline{color:var(--c-muted);font-size:13px;margin-bottom:2.5rem;text-align:center}
-.auth-card{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-lg);padding:2rem;width:100%;max-width:400px}
-.auth-title{font-family:var(--font-head);font-size:1.4rem;font-weight:600;margin-bottom:0.25rem}
+/* ── AUTH SCREENS (Estilo Portal USS) ── */
+#screen-login, #screen-register {
+  background-image: url('https://kfe1.sfo2.cdn.digitaloceanspaces.com/uss/galeria/1614008125-11-galeria.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+.auth-wrap{
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+  min-height:100vh;padding:2rem 5%;
+  background: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 30%, rgba(255,255,255,0) 60%);
+}
+.auth-card{
+  background:var(--c-surface);
+  border:1px solid var(--c-border);
+  border-radius:var(--radius-lg);
+  padding:2.5rem;
+  width:100%;
+  max-width:420px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+.auth-logo{font-family:var(--font-head);font-size:2.2rem;font-weight:800;color:var(--c-text);letter-spacing:-1px;margin-bottom:0.25rem}
+.auth-logo span{color:var(--c-accent)}
+.auth-tagline{color:var(--c-muted);font-size:14px;margin-bottom:2rem; font-weight: 500;}
+
+.auth-title{font-family:var(--font-head);font-size:1.4rem;font-weight:700;margin-bottom:0.25rem; letter-spacing: -0.5px;}
 .auth-sub{color:var(--c-muted);font-size:13px;margin-bottom:1.75rem}
 .form-group{margin-bottom:1.25rem}
-.form-label{display:block;font-size:13px;color:var(--c-muted2);margin-bottom:0.4rem;font-weight:500}
-.form-input{width:100%;background:var(--c-surface2);border:1px solid var(--c-border);border-radius:var(--radius);padding:0.7rem 1rem;color:var(--c-text);font-family:var(--font-body);font-size:14px;outline:none;transition:border-color var(--transition)}
-.form-input:focus{border-color:var(--c-accent)}
+.form-label{display:block;font-size:13px;color:var(--c-text);margin-bottom:0.4rem;font-weight:600}
+.form-input{width:100%;background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius);padding:0.7rem 1rem;color:var(--c-text);font-family:var(--font-body);font-size:14px;outline:none;transition:all var(--transition);box-shadow:inset 0 1px 2px rgba(0,0,0,0.02)}
+.form-input:focus{border-color:var(--c-accent);box-shadow:0 0 0 3px rgba(102, 36, 131, 0.1)}
 .form-input.error{border-color:var(--c-danger)}
-.form-error{font-size:12px;color:var(--c-danger);margin-top:0.35rem;display:none}
+.form-error{font-size:12px;color:var(--c-danger);margin-top:0.35rem;display:none;font-weight:500}
 .form-error.show{display:block}
+
 .btn{width:100%;padding:0.75rem 1.5rem;border:none;border-radius:var(--radius);font-family:var(--font-body);font-size:14px;font-weight:600;cursor:pointer;transition:all var(--transition)}
 .btn-primary{background:var(--c-accent);color:#fff}
-.btn-primary:hover{background:#2563eb;transform:translateY(-1px)}
+.btn-primary:hover{background:var(--c-accent-hover);transform:translateY(-1px);box-shadow:0 4px 12px rgba(102, 36, 131, 0.2)}
 .btn-primary:active{transform:translateY(0)}
-.btn-ghost{background:transparent;border:1px solid var(--c-border);color:var(--c-muted2)}
-.btn-ghost:hover{border-color:var(--c-accent);color:var(--c-accent)}
-.auth-switch{text-align:center;margin-top:1.25rem;font-size:13px;color:var(--c-muted)}
-.auth-switch a{color:var(--c-accent);cursor:pointer;text-decoration:none;font-weight:500}
+.btn-ghost{background:transparent;border:1px solid var(--c-border);color:var(--c-text)}
+.btn-ghost:hover{border-color:var(--c-accent);color:var(--c-accent);background:var(--c-surface2)}
+
+.auth-switch{text-align:center;margin-top:1.5rem;font-size:13px;color:var(--c-muted)}
+.auth-switch a{color:var(--c-accent);cursor:pointer;text-decoration:none;font-weight:600}
 .auth-switch a:hover{text-decoration:underline}
 
 /* OJO CONTRASEÑA */
 .input-pass-container { position: relative; display: flex; align-items: center; }
 .input-pass-container .form-input { padding-right: 2.5rem; }
-.btn-toggle-pass {
-  position: absolute; 
-  right: 10px; 
-  background: none; 
-  border: none; 
-  color: var(--c-muted2); 
-  cursor: pointer; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center;
-  padding: 4px;
-  outline: none;
-  transition: color var(--transition);
-}
-.btn-toggle-pass:hover { color: var(--c-text); }
-.btn-toggle-pass svg { 
-  width: 18px; 
-  height: 18px; 
-  stroke-width: 1.5px;
-}
+.btn-toggle-pass { position: absolute; right: 10px; background: none; border: none; color: var(--c-muted2); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 4px; outline: none; transition: color var(--transition); }
+.btn-toggle-pass:hover { color: var(--c-accent); }
+.btn-toggle-pass svg { width: 18px; height: 18px; stroke-width: 1.5px; }
 
 /* ── NAVBAR ── */
-.navbar{background:var(--c-surface);border-bottom:1px solid var(--c-border);padding:0 1.5rem;height:58px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.nav-logo{font-family:var(--font-head);font-size:1.1rem;font-weight:700;color:var(--c-accent)}
-.nav-logo span{color:var(--c-accent2)}
-.nav-tabs{display:flex;gap:0.25rem}
-.nav-tab{background:none;border:none;color:var(--c-muted);font-family:var(--font-body);font-size:13px;font-weight:500;padding:0.4rem 0.9rem;border-radius:8px;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;gap:6px}
+.navbar{background:var(--c-surface);border-bottom:1px solid var(--c-border);padding:0 1.5rem;height:64px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.nav-logo{font-family:var(--font-head);font-size:1.3rem;font-weight:800;color:var(--c-text); letter-spacing: -0.5px;}
+.nav-logo span{color:var(--c-accent)}
+.nav-tabs{display:flex;gap:0.5rem}
+.nav-tab{background:none;border:none;color:var(--c-muted);font-family:var(--font-body);font-size:14px;font-weight:600;padding:0.5rem 1rem;border-radius:var(--radius);cursor:pointer;transition:all var(--transition);display:flex;align-items:center;gap:6px}
 .nav-tab:hover{color:var(--c-text);background:var(--c-surface2)}
-.nav-tab.active{color:var(--c-accent);background:rgba(59,130,246,0.1)}
-.nav-user{display:flex;align-items:center;gap:10px}
-.nav-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--c-accent),var(--c-accent2));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff}
-.nav-name{font-size:13px;color:var(--c-muted2)}
-.nav-logout{background:none;border:none;color:var(--c-muted);font-size:12px;cursor:pointer;padding:4px 8px;border-radius:6px;transition:color var(--transition)}
-.nav-logout:hover{color:var(--c-danger)}
+.nav-tab.active{color:var(--c-accent);background:rgba(102, 36, 131, 0.08)}
+.nav-user{display:flex;align-items:center;gap:12px}
+.nav-avatar{width:36px;height:36px;border-radius:50%;background:var(--c-accent);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff}
+.nav-name{font-size:14px;font-weight:500;color:var(--c-text)}
+.nav-logout{background:var(--c-surface2);border:1px solid var(--c-border);color:var(--c-text);font-size:12px;font-weight:600;cursor:pointer;padding:6px 12px;border-radius:var(--radius);transition:all var(--transition)}
+.nav-logout:hover{color:var(--c-danger);border-color:var(--c-danger);background:rgba(239, 68, 68, 0.05)}
 
 /* ── MAP SCREEN ── */
-.map-screen{display:flex;flex-direction:column;flex:1;height:calc(100vh - 58px)}
+.map-screen{display:flex;flex-direction:column;flex:1;height:calc(100vh - 64px)}
 .map-panel{display:flex;flex:1;overflow:hidden}
-.map-sidebar{width:320px;background:var(--c-surface);border-right:1px solid var(--c-border);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0}
-.sidebar-head{padding:1.25rem 1.25rem 0.75rem;border-bottom:1px solid var(--c-border)}
-.sidebar-title{font-family:var(--font-head);font-size:1rem;font-weight:600;margin-bottom:0.15rem}
-.sidebar-sub{font-size:12px;color:var(--c-muted)}
-.sidebar-body{padding:1.25rem;display:flex;flex-direction:column;gap:1rem;flex:1}
-.field-label{font-size:12px;color:var(--c-muted2);margin-bottom:0.4rem;font-weight:500}
-.detect-btn{width:100%;background:var(--c-surface2);border:1px dashed var(--c-border);border-radius:var(--radius);padding:0.65rem 1rem;color:var(--c-muted2);font-family:var(--font-body);font-size:13px;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;gap:8px}
-.detect-btn:hover{border-color:var(--c-accent);color:var(--c-accent)}
+.map-sidebar{width:340px;background:var(--c-surface);border-right:1px solid var(--c-border);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0;box-shadow:2px 0 8px rgba(0,0,0,0.03);z-index:10}
+.sidebar-head{padding:1.5rem 1.5rem 1rem;border-bottom:1px solid var(--c-border);background:var(--c-surface2)}
+.sidebar-title{font-family:var(--font-head);font-size:1.1rem;font-weight:700;margin-bottom:0.15rem;color:var(--c-accent)}
+.sidebar-sub{font-size:13px;color:var(--c-muted)}
+.sidebar-body{padding:1.5rem;display:flex;flex-direction:column;gap:1.25rem;flex:1}
+.field-label{font-size:13px;color:var(--c-text);margin-bottom:0.5rem;font-weight:700}
+.detect-btn{width:100%;background:var(--c-surface);border:2px dashed var(--c-border);border-radius:var(--radius);padding:0.75rem 1rem;color:var(--c-muted);font-family:var(--font-body);font-size:13px;font-weight:600;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;gap:8px}
+.detect-btn:hover{border-color:var(--c-accent);color:var(--c-accent);background:rgba(102, 36, 131, 0.02)}
 .detect-btn.detecting{border-color:var(--c-accent2);color:var(--c-accent2);animation:pulse 1.2s infinite}
-.detect-btn.found{border-color:var(--c-success);color:var(--c-success);border-style:solid}
+.detect-btn.found{border-color:var(--c-success);color:var(--c-success);border-style:solid;background:rgba(16, 185, 129, 0.05)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
-.transport-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.transport-opt{background:var(--c-surface2);border:1px solid var(--c-border);border-radius:var(--radius);padding:0.6rem 0.75rem;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--c-muted2)}
-.transport-opt:hover{border-color:var(--c-accent);color:var(--text)}
-.transport-opt.selected{border-color:var(--c-accent);background:rgba(59,130,246,0.1);color:var(--c-accent)}
+.transport-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.transport-opt{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius);padding:0.75rem;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--c-muted)}
+.transport-opt:hover{border-color:var(--c-accent);color:var(--c-text)}
+.transport-opt.selected{border-color:var(--c-accent);background:var(--c-accent);color:#fff;}
 .transport-icon{font-size:18px}
-.weights-section{background:var(--c-surface2);border-radius:var(--radius);padding:1rem}
-.weight-row{margin-bottom:0.75rem}
+.weights-section{background:var(--c-surface2);border:1px solid var(--c-border);border-radius:var(--radius);padding:1.25rem}
+.weight-row{margin-bottom:1rem}
 .weight-row:last-child{margin-bottom:0}
-.weight-header{display:flex;justify-content:space-between;margin-bottom:0.3rem}
-.weight-name{font-size:12px;color:var(--c-muted2)}
-.weight-val{font-size:12px;font-weight:600;color:var(--c-accent)}
-.weight-slider{width:100%;accent-color:var(--c-accent);height:4px}
-.weight-sum{text-align:center;font-size:11px;margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid var(--c-border)}
+.weight-header{display:flex;justify-content:space-between;margin-bottom:0.4rem}
+.weight-name{font-size:13px;font-weight:600;color:var(--c-text)}
+.weight-val{font-size:13px;font-weight:700;color:var(--c-accent)}
+.weight-slider{width:100%;accent-color:var(--c-accent);height:6px;border-radius:3px}
+.weight-sum{text-align:center;font-size:12px;font-weight:600;margin-top:1rem;padding-top:0.75rem;border-top:1px dashed var(--c-border)}
 .weight-sum.ok{color:var(--c-success)}
 .weight-sum.bad{color:var(--c-danger)}
-.formula-box{background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.2);border-radius:var(--radius);padding:0.75rem;font-size:11px;color:var(--c-muted2);font-family:monospace;line-height:1.8}
-.formula-box span{color:var(--c-accent2);font-weight:600}
-.calc-btn{width:100%;background:var(--c-accent);border:none;border-radius:var(--radius);padding:0.8rem;color:#fff;font-family:var(--font-head);font-size:14px;font-weight:600;cursor:pointer;transition:all var(--transition)}
-.calc-btn:hover{background:#2563eb;transform:translateY(-1px)}
-.calc-btn:disabled{background:var(--c-border);color:var(--c-muted);cursor:not-allowed;transform:none}
+.formula-box{background:rgba(102, 36, 131, 0.05);border:1px solid rgba(102, 36, 131, 0.2);border-radius:var(--radius);padding:1rem;font-size:12px;color:var(--c-text);font-family:monospace;line-height:1.6;font-weight:500}
+.formula-box span{color:var(--c-accent);font-weight:700}
+.calc-btn{width:100%;background:var(--c-accent);border:none;border-radius:var(--radius);padding:1rem;color:#fff;font-family:var(--font-head);font-size:15px;font-weight:700;cursor:pointer;transition:all var(--transition);box-shadow:0 4px 12px rgba(102, 36, 131, 0.25)}
+.calc-btn:hover{background:var(--c-accent-hover);transform:translateY(-2px)}
+.calc-btn:disabled{background:var(--c-border);color:var(--c-muted);cursor:not-allowed;transform:none;box-shadow:none}
 #map{flex:1}
-.leaflet-container{background:#0d1117}
+.leaflet-container{background:#e5e7eb}
+
+/* ── AUTOCOMPLETE CSS ── */
+.suggestions-list { 
+  position: absolute; 
+  top: 100%; 
+  left: 0; 
+  right: 0; 
+  background: white; 
+  border: 1px solid var(--c-border); 
+  border-radius: var(--radius); 
+  margin-top: 4px; 
+  padding: 0; 
+  list-style: none; 
+  max-height: 200px; 
+  overflow-y: auto; 
+  display: none; 
+  z-index: 1000; 
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.suggestions-list li { 
+  padding: 10px 15px; 
+  cursor: pointer; 
+  border-bottom: 1px solid var(--c-border);
+  font-size: 13px;
+  color: var(--c-text);
+}
+.suggestions-list li:hover { 
+  background: var(--c-surface2);
+  color: var(--c-accent);
+}
+.suggestions-list li:last-child {
+  border-bottom: none;
+}
 
 /* ── RESULT PANEL ── */
-.result-overlay{display:none;position:absolute;bottom:0;left:320px;right:0;background:var(--c-surface);border-top:1px solid var(--c-border);padding:1.25rem;animation:slideUp 0.3s ease;z-index:1000}
+.result-overlay{display:none;position:absolute;bottom:0;left:340px;right:0;background:var(--c-surface);border-top:1px solid var(--c-border);padding:1.5rem;animation:slideUp 0.3s ease;z-index:1000;box-shadow:0 -5px 20px rgba(0,0,0,0.05)}
 .result-overlay.show{display:block}
 @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
-.result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1rem}
-.result-card{background:var(--c-surface2);border:1px solid var(--c-border);border-radius:var(--radius);padding:0.75rem 1rem}
-.result-label{font-size:11px;color:var(--c-muted);margin-bottom:0.2rem}
-.result-value{font-family:var(--font-head);font-size:1.2rem;font-weight:700}
+.result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:1.25rem}
+.result-card{background:var(--c-surface2);border:1px solid var(--c-border);border-radius:var(--radius);padding:1rem;text-align:center}
+.result-label{font-size:12px;font-weight:600;color:var(--c-muted);margin-bottom:0.25rem;text-transform:uppercase;letter-spacing:0.5px}
+.result-value{font-family:var(--font-head);font-size:1.5rem;font-weight:800}
 .result-value.accent{color:var(--c-accent)}
 .result-value.success{color:var(--c-success)}
 .result-value.warn{color:var(--c-warn)}
-.result-formula{background:rgba(6,182,212,0.06);border:1px solid rgba(6,182,212,0.2);border-radius:var(--radius);padding:0.75rem 1rem;font-size:12px;font-family:monospace;color:var(--c-muted2);line-height:1.8}
+.result-formula{background:rgba(2, 132, 199, 0.05);border:1px solid rgba(2, 132, 199, 0.2);border-radius:var(--radius);padding:0.75rem 1rem;font-size:13px;font-family:monospace;color:var(--c-text);line-height:1.6}
 .result-formula strong{color:var(--c-accent2)}
-.routes-list{display:flex;gap:8px;margin-top:1rem}
-.route-chip{flex:1;background:var(--c-surface2);border:1px solid var(--c-border);border-radius:var(--radius);padding:0.5rem 0.75rem;font-size:12px;cursor:pointer;transition:all var(--transition);text-align:center}
-.route-chip:hover{border-color:var(--c-accent)}
-.route-chip.active-route{border-color:var(--c-accent);background:rgba(59,130,246,0.1)}
-.route-chip.best{border-color:var(--c-success);background:rgba(16,185,129,0.08)}
-.route-chip.best.active-route{border-color:var(--c-success);background:rgba(16,185,129,0.15)}
-.route-chip-label{font-size:10px;color:var(--c-muted);margin-bottom:2px}
-.route-chip-val{font-weight:600;color:var(--c-text);font-size:13px}
+.routes-list{display:flex;gap:12px;margin-top:1.25rem}
+.route-chip{flex:1;background:var(--c-surface);border:2px solid var(--c-border);border-radius:var(--radius);padding:0.75rem;font-size:13px;cursor:pointer;transition:all var(--transition);text-align:center}
+.route-chip:hover{border-color:var(--c-accent);background:var(--c-surface2)}
+.route-chip.active-route{border-color:var(--c-accent);background:rgba(102, 36, 131, 0.05)}
+.route-chip.best{border-color:var(--c-success);background:rgba(16,185,129,0.05)}
+.route-chip.best.active-route{border-color:var(--c-success);background:rgba(16,185,129,0.1)}
+.route-chip-label{font-size:11px;font-weight:700;color:var(--c-muted);margin-bottom:4px;text-transform:uppercase}
+.route-chip-val{font-weight:700;color:var(--c-text);font-size:14px}
 .route-chip.best .route-chip-val{color:var(--c-success)}
 
 /* ── HISTORY SCREEN ── */
-.content-screen{padding:2rem;flex:1;overflow-y:auto;max-width:860px;width:100%;margin:0 auto}
-.page-title{font-family:var(--font-head);font-size:1.5rem;font-weight:700;margin-bottom:0.25rem}
-.page-sub{color:var(--c-muted);font-size:13px;margin-bottom:2rem}
-.history-list{display:flex;flex-direction:column;gap:10px}
-.history-item{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;align-items:center;gap:1rem;cursor:pointer;transition:all var(--transition)}
-.history-item:hover{border-color:var(--c-accent);background:var(--c-surface2)}
-.hist-icon{width:42px;height:42px;border-radius:10px;background:rgba(59,130,246,0.1);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.content-screen{padding:2.5rem;flex:1;overflow-y:auto;max-width:900px;width:100%;margin:0 auto}
+.page-title{font-family:var(--font-head);font-size:1.8rem;font-weight:800;margin-bottom:0.25rem;color:var(--c-text); letter-spacing:-0.5px;}
+.page-sub{color:var(--c-muted);font-size:14px;margin-bottom:2.5rem}
+.history-list{display:flex;flex-direction:column;gap:12px}
+.history-item{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-lg);padding:1.25rem 1.5rem;display:flex;align-items:center;gap:1.25rem;cursor:pointer;transition:all var(--transition);box-shadow:0 2px 5px rgba(0,0,0,0.02)}
+.history-item:hover{border-color:var(--c-accent);box-shadow:0 5px 15px rgba(102, 36, 131, 0.08);transform:translateY(-2px)}
+.hist-icon{width:48px;height:48px;border-radius:12px;background:rgba(102, 36, 131, 0.08);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
 .hist-body{flex:1}
-.hist-origin{font-weight:500;font-size:14px;margin-bottom:2px}
-.hist-meta{font-size:12px;color:var(--c-muted)}
-.hist-stats{display:flex;gap:16px;text-align:right}
-.hist-stat-val{font-family:var(--font-head);font-size:15px;font-weight:600}
-.hist-stat-label{font-size:11px;color:var(--c-muted)}
-.hist-transport-badge{font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(59,130,246,0.1);color:var(--c-accent);font-weight:500;align-self:center}
-.empty-state{text-align:center;padding:4rem 2rem;color:var(--c-muted)}
-.empty-icon{font-size:3rem;margin-bottom:1rem;opacity:0.4}
-.empty-text{font-size:14px}
+.hist-origin{font-weight:600;font-size:15px;margin-bottom:4px;color:var(--c-text)}
+.hist-meta{font-size:13px;color:var(--c-muted);font-weight:500}
+.hist-stats{display:flex;gap:20px;text-align:right}
+.hist-stat-val{font-family:var(--font-head);font-size:16px;font-weight:700;color:var(--c-accent)}
+.hist-stat-label{font-size:12px;color:var(--c-muted);font-weight:500}
+.hist-transport-badge{font-size:12px;padding:4px 12px;border-radius:20px;background:var(--c-surface2);border:1px solid var(--c-border);color:var(--c-text);font-weight:600;align-self:center}
+.empty-state{text-align:center;padding:5rem 2rem;color:var(--c-muted)}
+.empty-icon{font-size:4rem;margin-bottom:1rem;opacity:0.5}
+.empty-text{font-size:15px;font-weight:500}
 
 /* ── FAVORITES SCREEN ── */
-.fav-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
-.fav-card{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-lg);padding:1.25rem;cursor:pointer;transition:all var(--transition);position:relative}
-.fav-card:hover{border-color:var(--c-accent);transform:translateY(-2px)}
-.fav-card-icon{font-size:1.5rem;margin-bottom:0.75rem}
-.fav-card-name{font-family:var(--font-head);font-size:15px;font-weight:600;margin-bottom:0.25rem}
-.fav-card-addr{font-size:12px;color:var(--c-muted);line-height:1.5}
-.fav-card-del{position:absolute;top:10px;right:10px;background:none;border:none;color:var(--c-muted);font-size:14px;cursor:pointer;padding:4px 6px;border-radius:6px;transition:color var(--transition)}
-.fav-card-del:hover{color:var(--c-danger)}
-.fav-add{background:var(--c-surface2);border:1px dashed var(--c-border);border-radius:var(--radius-lg);padding:1.25rem;cursor:pointer;transition:all var(--transition);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--c-muted);min-height:120px}
-.fav-add:hover{border-color:var(--c-accent);color:var(--c-accent)}
-.fav-add-icon{font-size:1.5rem}
-.fav-add-label{font-size:13px;font-weight:500}
+.fav-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.fav-card{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-lg);padding:1.5rem;cursor:pointer;transition:all var(--transition);position:relative;box-shadow:0 2px 5px rgba(0,0,0,0.02)}
+.fav-card:hover{border-color:var(--c-accent);transform:translateY(-3px);box-shadow:0 8px 20px rgba(102, 36, 131, 0.1)}
+.fav-card-icon{font-size:1.8rem;margin-bottom:1rem}
+.fav-card-name{font-family:var(--font-head);font-size:16px;font-weight:700;margin-bottom:0.4rem;color:var(--c-text)}
+.fav-card-addr{font-size:13px;color:var(--c-muted);line-height:1.5;font-weight:500}
+.fav-card-del{position:absolute;top:12px;right:12px;background:var(--c-surface2);border:1px solid var(--c-border);color:var(--c-muted);font-size:12px;cursor:pointer;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all var(--transition)}
+.fav-card-del:hover{color:#fff;background:var(--c-danger);border-color:var(--c-danger)}
+.fav-add{background:var(--c-surface2);border:2px dashed var(--c-border);border-radius:var(--radius-lg);padding:1.5rem;cursor:pointer;transition:all var(--transition);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--c-muted);min-height:140px}
+.fav-add:hover{border-color:var(--c-accent);color:var(--c-accent);background:rgba(102, 36, 131, 0.02)}
+.fav-add-icon{font-size:1.8rem}
+.fav-add-label{font-size:14px;font-weight:600}
 
 /* ── MODAL ── */
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(15, 23, 42, 0.6);backdrop-filter:blur(4px);z-index:9999;align-items:center;justify-content:center}
 .modal-bg.show{display:flex}
-.modal{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-lg);padding:2rem;width:100%;max-width:420px;animation:fadeIn 0.2s ease}
-.modal-title{font-family:var(--font-head);font-size:1.1rem;font-weight:600;margin-bottom:1.5rem}
-.modal-actions{display:flex;gap:10px;margin-top:1.5rem}
+.modal{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-lg);padding:2.5rem;width:100%;max-width:440px;animation:fadeIn 0.2s ease;box-shadow:0 20px 40px rgba(0,0,0,0.2)}
+.modal-title{font-family:var(--font-head);font-size:1.3rem;font-weight:700;margin-bottom:1.5rem;color:var(--c-text)}
+.modal-actions{display:flex;gap:12px;margin-top:2rem}
 .modal-actions .btn{flex:1}
-.btn-danger{background:var(--c-danger);color:#fff;border:none;border-radius:var(--radius);padding:0.7rem 1.5rem;cursor:pointer;font-family:var(--font-body);font-size:14px;font-weight:600;transition:all var(--transition)}
 
 /* ── TOAST ── */
-.toast{position:fixed;bottom:2rem;right:2rem;background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius);padding:0.75rem 1.25rem;font-size:13px;z-index:10000;animation:fadeIn 0.2s ease;display:none;align-items:center;gap:10px;max-width:320px}
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius);padding:1rem 1.5rem;font-size:14px;font-weight:600;z-index:10000;animation:fadeIn 0.2s ease;display:none;align-items:center;gap:10px;max-width:340px;box-shadow:0 10px 25px rgba(0,0,0,0.1)}
 .toast.show{display:flex}
-.toast.success{border-color:var(--c-success);color:var(--c-success)}
-.toast.error{border-color:var(--c-danger);color:var(--c-danger)}
-.toast.info{border-color:var(--c-accent);color:var(--c-accent)}
+.toast.success{border-left:4px solid var(--c-success)}
+.toast.error{border-left:4px solid var(--c-danger)}
+.toast.info{border-left:4px solid var(--c-accent)}
 
-/* ── LOADING ── */
-.loading-dots{display:inline-flex;gap:4px}
-.loading-dots span{width:6px;height:6px;border-radius:50%;background:currentColor;animation:dot 1.2s infinite}
-.loading-dots span:nth-child(2){animation-delay:0.2s}
-.loading-dots span:nth-child(3){animation-delay:0.4s}
-@keyframes dot{0%,80%,100%{opacity:0.2}40%{opacity:1}}
-
-.divider{text-align:center;color:var(--c-muted);font-size:12px;margin:1rem 0;position:relative}
+.divider{text-align:center;color:var(--c-muted);font-size:13px;font-weight:600;margin:1.25rem 0;position:relative}
 .divider::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:var(--c-border);z-index:0}
-.divider span{background:var(--c-surface);padding:0 10px;position:relative;z-index:1}
-
-.icon{display:inline-block;width:16px;height:16px}
+.divider span{background:var(--c-surface);padding:0 15px;position:relative;z-index:1}
 
 /* ── MEDIA QUERIES ── */
 @media (max-width: 768px) {
-  .navbar { padding: 0 0.75rem; height: auto; flex-direction: column; gap: 0.5rem; padding-bottom: 0.75rem; padding-top: 0.75rem; }
-  .nav-tabs { width: 100%; justify-content: space-around; }
-  .nav-tab { padding: 0.5rem 0.6rem; font-size: 12px; flex: 1; justify-content: center; }
-  .nav-user { width: 100%; justify-content: space-between; border-top: 1px solid var(--c-border); padding-top: 0.5rem; margin-top: 0.25rem; }
-  .map-screen { height: auto; min-height: calc(100vh - 110px); overflow-y: auto; }
+  .auth-wrap { padding: 1.5rem; justify-content:center; background: rgba(255,255,255,0.85); backdrop-filter:blur(5px); }
+  .auth-card { padding: 1.5rem; }
+  .navbar { padding: 0 1rem; height: auto; flex-direction: column; gap: 0.75rem; padding-bottom: 1rem; padding-top: 1rem; }
+  .nav-tabs { width: 100%; justify-content: space-between; }
+  .nav-tab { padding: 0.5rem; font-size: 13px; flex: 1; justify-content: center; }
+  .nav-user { width: 100%; justify-content: space-between; border-top: 1px solid var(--c-border); padding-top: 0.75rem; }
+  .map-screen { height: auto; min-height: calc(100vh - 120px); overflow-y: auto; }
   .map-panel { flex-direction: column; overflow: visible; }
-  #map { order: 1; width: 100%; height: 45vh; min-height: 300px; }
-  .map-sidebar { order: 2; width: 100%; border-right: none; border-top: 1px solid var(--c-border); overflow-y: visible; }
-  .result-overlay { position: relative !important; bottom: auto !important; left: auto !important; right: auto !important; width: 100% !important; border-top: 1px solid var(--c-border); order: 3; padding: 1rem; }
-  .result-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  .result-card { padding: 0.5rem 0.75rem; }
-  .result-value { font-size: 1.1rem; }
-  .routes-list { flex-direction: column; gap: 6px; }
-  .route-chip { padding: 0.4rem; }
-  .content-screen { padding: 1rem; }
-  .history-item { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
-  .hist-stats { width: 100%; justify-content: space-between; text-align: left; border-top: 1px dashed var(--c-border); padding-top: 0.5rem; }
-  .hist-transport-badge { align-self: flex-start; }
-  .fav-grid { grid-template-columns: 1fr; }
+  #map { order: 1; width: 100%; height: 50vh; min-height: 350px; }
+  .map-sidebar { order: 2; width: 100%; border-right: none; border-top: 1px solid var(--c-border); overflow-y: visible; box-shadow:none; }
+  .result-overlay { position: relative !important; bottom: auto !important; left: auto !important; right: auto !important; width: 100% !important; border-top: 1px solid var(--c-border); order: 3; padding: 1.25rem; box-shadow:none;}
+  .result-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .routes-list { flex-direction: column; gap: 8px; }
+  .content-screen { padding: 1.5rem; }
+  .history-item { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .hist-stats { width: 100%; justify-content: space-between; text-align: left; border-top: 1px dashed var(--c-border); padding-top: 1rem; }
   .toast { left: 1rem; right: 1rem; bottom: 1rem; max-width: none; text-align: center; justify-content: center; }
 }
 </style>
@@ -253,30 +282,31 @@ body{background:var(--c-bg);color:var(--c-text);font-family:var(--font-body);fon
 <!-- LOGIN -->
 <main class="screen active" id="screen-login">
   <div class="auth-wrap">
-    <div class="auth-logo">Ruta<span>USS</span></div>
-    <div class="auth-tagline">La ruta más inteligente hacia tu universidad</div>
     <div class="auth-card">
-      <div class="auth-title">Bienvenido de vuelta</div>
-      <div class="auth-sub">Ingresa tus credenciales para continuar</div>
+      <div class="auth-logo">Ruta<span>USS</span></div>
+      <div class="auth-tagline">Plataforma integral de movilidad hacia el campus USS</div>
+      
+      <div class="auth-title">Iniciar sesión</div>
+      <div class="auth-sub">Ingrese sus credenciales de acceso institucional</div>
       <div class="form-group">
         <label class="form-label" for="login-email">Correo electrónico</label>
-        <input class="form-input" id="login-email" type="email" placeholder="tu@correo.com"/>
-        <div class="form-error" id="err-login-email">Ingresa un correo válido</div>
+        <input class="form-input" id="login-email" type="email" placeholder="usuario@uss.edu.pe"/>
+        <div class="form-error" id="err-login-email">Ingrese un formato de correo electrónico válido</div>
       </div>
       <div class="form-group">
         <label class="form-label" for="login-pass">Contraseña</label>
         <div class="input-pass-container">
-          <input class="form-input" id="login-pass" type="password" placeholder="Mínimo 6 caracteres"/>
+          <input class="form-input" id="login-pass" type="password" placeholder="Ingrese su contraseña"/>
           <button type="button" class="btn-toggle-pass" onclick="togglePassword('login-pass', this)">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
         </div>
-        <div class="form-error" id="err-login-pass">Contraseña incorrecta o usuario no existe</div>
+        <div class="form-error" id="err-login-pass">Credenciales incorrectas o el usuario no existe en el sistema</div>
       </div>
-      <button class="btn btn-primary" id="btn-login" onclick="doLogin()">Iniciar sesión</button>
+      <button class="btn btn-primary" id="btn-login" onclick="doLogin()">Ingresar a la plataforma</button>
       <div class="divider"><span>o</span></div>
-      <button class="btn btn-ghost" onclick="goDemo()">Probar sin cuenta (demo)</button>
-      <div class="auth-switch">¿No tienes cuenta? <a onclick="goTo('screen-register')">Regístrate aquí</a></div>
+      <button class="btn btn-ghost" onclick="goDemo()">Acceder como Invitado</button>
+      <div class="auth-switch">¿Aún no tiene cuenta? <a onclick="goTo('screen-register')">Regístrese aquí</a></div>
     </div>
   </div>
 </main>
@@ -284,43 +314,44 @@ body{background:var(--c-bg);color:var(--c-text);font-family:var(--font-body);fon
 <!-- REGISTER -->
 <main class="screen" id="screen-register">
   <div class="auth-wrap">
-    <div class="auth-logo">Ruta<span>USS</span></div>
-    <div class="auth-tagline">La ruta más inteligente hacia tu universidad</div>
     <div class="auth-card">
-      <div class="auth-title">Crear cuenta</div>
-      <div class="auth-sub">Completa los datos para registrarte</div>
+      <div class="auth-logo">Ruta<span>USS</span></div>
+      <div class="auth-tagline">Plataforma integral de movilidad hacia el campus USS</div>
+      
+      <div class="auth-title">Crear nueva cuenta</div>
+      <div class="auth-sub">Complete el formulario para habilitar su acceso</div>
       <div class="form-group">
         <label class="form-label" for="reg-name">Nombre completo</label>
-        <input class="form-input" id="reg-name" type="text" placeholder="Juan Pérez García"/>
-        <div class="form-error" id="err-reg-name">Ingresa tu nombre completo (mín. 3 caracteres)</div>
+        <input class="form-input" id="reg-name" type="text" placeholder="Nombres y apellidos completos"/>
+        <div class="form-error" id="err-reg-name">Debe ingresar su nombre completo (mín. 3 caracteres)</div>
       </div>
       <div class="form-group">
         <label class="form-label" for="reg-email">Correo electrónico</label>
-        <input class="form-input" id="reg-email" type="email" placeholder="tu@correo.com"/>
-        <div class="form-error" id="err-reg-email">Ingresa un correo electrónico válido</div>
+        <input class="form-input" id="reg-email" type="email" placeholder="usuario@uss.edu.pe"/>
+        <div class="form-error" id="err-reg-email">Ingrese un formato de correo electrónico válido</div>
       </div>
       <div class="form-group">
         <label class="form-label" for="reg-pass">Contraseña</label>
         <div class="input-pass-container">
-          <input class="form-input" id="reg-pass" type="password" placeholder="Mínimo 6 caracteres"/>
+          <input class="form-input" id="reg-pass" type="password" placeholder="Cree una contraseña segura (mín. 6 caracteres)"/>
           <button type="button" class="btn-toggle-pass" onclick="togglePassword('reg-pass', this)">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
         </div>
-        <div class="form-error" id="err-reg-pass">La contraseña debe tener al menos 6 caracteres</div>
+        <div class="form-error" id="err-reg-pass">La contraseña debe contener un mínimo de 6 caracteres</div>
       </div>
       <div class="form-group">
         <label class="form-label" for="reg-pass2">Confirmar contraseña</label>
         <div class="input-pass-container">
-          <input class="form-input" id="reg-pass2" type="password" placeholder="Repite tu contraseña"/>
+          <input class="form-input" id="reg-pass2" type="password" placeholder="Confirme su contraseña"/>
           <button type="button" class="btn-toggle-pass" onclick="togglePassword('reg-pass2', this)">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
         </div>
-        <div class="form-error" id="err-reg-pass2">Las contraseñas no coinciden</div>
+        <div class="form-error" id="err-reg-pass2">Las contraseñas ingresadas no coinciden</div>
       </div>
-      <button class="btn btn-primary" onclick="doRegister()">Crear cuenta</button>
-      <div class="auth-switch">¿Ya tienes cuenta? <a onclick="goTo('screen-login')">Inicia sesión</a></div>
+      <button class="btn btn-primary" onclick="doRegister()">Registrar cuenta</button>
+      <div class="auth-switch">¿Ya dispone de una cuenta? <a onclick="goTo('screen-login')">Inicie sesión</a></div>
     </div>
   </div>
 </main>
@@ -338,7 +369,7 @@ body{background:var(--c-bg);color:var(--c-text);font-family:var(--font-body);fon
     <div class="nav-user">
       <div class="nav-avatar" id="nav-avatar">?</div>
       <span class="nav-name" id="nav-name">Usuario</span>
-      <button class="nav-logout" onclick="doLogout()">Salir</button>
+      <button class="nav-logout" onclick="doLogout()">Cerrar Sesión</button>
     </div>
   </header>
 
@@ -348,38 +379,43 @@ body{background:var(--c-bg);color:var(--c-text);font-family:var(--font-body);fon
       <aside class="map-sidebar">
         <div class="sidebar-head">
           <div class="sidebar-title">Calcular ruta óptima</div>
-          <div class="sidebar-sub">Destino fijo: USS Campus</div>
+          <div class="sidebar-sub">Destino central: USS Campus</div>
         </div>
         <div class="sidebar-body">
           <!-- Origen -->
           <div>
-            <label class="field-label" for="manual-origin">📍 Tu ubicación actual</label>
+            <label class="field-label" for="manual-origin">📍 Su ubicación actual</label>
             <button class="detect-btn" id="gps-btn" onclick="detectGPS()">
               <span id="gps-icon">🛰️</span>
-              <span id="gps-text">Detectar mi ubicación GPS</span>
+              <span id="gps-text">Detectar mediante señal GPS</span>
             </button>
-            <div style="margin-top:8px">
-              <input class="form-input" id="manual-origin" placeholder="O escribe tu dirección..." style="font-size:13px"/>
-              <div class="form-error" id="err-origin">Debes indicar tu punto de origen</div>
+            
+            <!-- CONTENEDOR AUTOCOMPLETADO MODIFICADO AQUÍ -->
+            <div style="margin-top:10px; position:relative;">
+              <input class="form-input" id="manual-origin" placeholder="O ingrese una dirección referencial..." style="font-size:13px" autocomplete="off"/>
+              <ul id="suggestions" class="suggestions-list"></ul>
+              <div class="form-error" id="err-origin">Es necesario indicar un punto de partida para el cálculo</div>
             </div>
+            <!-- FIN CONTENEDOR AUTOCOMPLETADO -->
+
           </div>
           <!-- Destino fijo -->
-          <div style="background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);border-radius:var(--radius);padding:0.65rem 1rem;font-size:13px;color:#10b981;display:flex;align-items:center;gap:8px">
+          <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:var(--radius);padding:0.75rem 1rem;font-size:13px;font-weight:600;color:#047857;display:flex;align-items:center;gap:8px">
             <span>🎯</span> USS — Universidad Señor de Sipán
           </div>
           <!-- Transporte -->
           <div>
-            <div class="field-label">🚗 Medio de transporte</div>
+            <div class="field-label">🚗 Modalidad de transporte</div>
             <div class="transport-grid">
-              <div class="transport-opt selected" id="t-auto" onclick="selectTransport('auto',this)"><span class="transport-icon">🚗</span> Auto</div>
-              <div class="transport-opt" id="t-bus" onclick="selectTransport('bus',this)"><span class="transport-icon">🚌</span> Bus</div>
-              <div class="transport-opt" id="t-mototaxi" onclick="selectTransport('mototaxi',this)"><span class="transport-icon">🛺</span> Mototaxi</div>
-              <div class="transport-opt" id="t-walk" onclick="selectTransport('walk',this)"><span class="transport-icon">🚶</span> Caminando</div>
+              <div class="transport-opt selected" id="t-auto" onclick="selectTransport('auto',this)"><span class="transport-icon">🚗</span> Vehículo Particular</div>
+              <div class="transport-opt" id="t-bus" onclick="selectTransport('bus',this)"><span class="transport-icon">🚌</span> Transporte Público</div>
+              <div class="transport-opt" id="t-mototaxi" onclick="selectTransport('mototaxi',this)"><span class="transport-icon">🛺</span> Transporte Ligero</div>
+              <div class="transport-opt" id="t-walk" onclick="selectTransport('walk',this)"><span class="transport-icon">🚶</span> Peatonal</div>
             </div>
           </div>
           <!-- Pesos matemáticos -->
           <div>
-            <div class="field-label">⚖️ Prioridades (deben sumar 100%)</div>
+            <div class="field-label">⚖️ Factores de prioridad (Sumatoria: 100%)</div>
             <div class="weights-section">
               <div class="weight-row">
                 <div class="weight-header">
@@ -390,27 +426,27 @@ body{background:var(--c-bg);color:var(--c-text);font-family:var(--font-body);fon
               </div>
               <div class="weight-row">
                 <div class="weight-header">
-                  <span class="weight-name">⏱️ Tiempo</span>
+                  <span class="weight-name">⏱️ Tiempo Operativo</span>
                   <span class="weight-val" id="w2-val">40%</span>
                 </div>
                 <input type="range" class="weight-slider" id="w2" min="0" max="100" step="5" value="40" oninput="updateWeights()"/>
               </div>
               <div class="weight-row">
                 <div class="weight-header">
-                  <span class="weight-name">💰 Costo</span>
+                  <span class="weight-name">💰 Inversión Económica</span>
                   <span class="weight-val" id="w3-val">20%</span>
                 </div>
                 <input type="range" class="weight-slider" id="w3" min="0" max="100" step="5" value="20" oninput="updateWeights()"/>
               </div>
-              <div class="weight-sum ok" id="weight-sum">✓ Total: 100% — pesos válidos</div>
+              <div class="weight-sum ok" id="weight-sum">✓ Sumatoria total: 100% — Parámetros aprobados</div>
             </div>
           </div>
           <!-- Fórmula -->
           <div class="formula-box">
-            Score = <span id="fw1">0.40</span>×dist + <span id="fw2">0.40</span>×tiempo + <span id="fw3">0.20</span>×costo
+            Índice Óptimo = <span id="fw1">0.40</span>×dist + <span id="fw2">0.40</span>×tiempo + <span id="fw3">0.20</span>×costo
           </div>
           <!-- Botón calcular -->
-          <button class="calc-btn" id="btn-calc" onclick="calcularRuta()">Calcular ruta óptima ↗</button>
+          <button class="calc-btn" id="btn-calc" onclick="calcularRuta()">Procesar Ruta Óptima ↗</button>
         </div>
       </aside>
       <div id="map"></div>
@@ -419,36 +455,36 @@ body{background:var(--c-bg);color:var(--c-text);font-family:var(--font-body);fon
     <div class="result-overlay" id="result-overlay">
       <div class="result-grid">
         <div class="result-card">
-          <div class="result-label">Distancia</div>
+          <div class="result-label">Distancia Mapeada</div>
           <div class="result-value accent" id="res-dist">—</div>
         </div>
         <div class="result-card">
-          <div class="result-label">Tiempo estimado</div>
+          <div class="result-label">Tiempo Estimado</div>
           <div class="result-value success" id="res-time">—</div>
         </div>
         <div class="result-card">
-          <div class="result-label">Costo aprox.</div>
+          <div class="result-label">Costo Proyectado</div>
           <div class="result-value warn" id="res-cost">—</div>
         </div>
         <div class="result-card">
-          <div class="result-label">Score óptimo</div>
+          <div class="result-label">Score de Eficiencia</div>
           <div class="result-value" id="res-score">—</div>
         </div>
       </div>
       <div class="result-formula" id="res-formula">
-        Score = w₁×dist + w₂×tiempo + w₃×costo → calculando...
+        Índice = w₁×dist + w₂×tiempo + w₃×costo → Procesando...
       </div>
       <div class="routes-list">
         <div class="route-chip best active-route" id="r1" onclick="selectRoute(0)">
-          <div class="route-chip-label">🏆 Ruta óptima</div>
+          <div class="route-chip-label">🏆 Vía Recomendada</div>
           <div class="route-chip-val" id="r1-val">—</div>
         </div>
         <div class="route-chip" id="r2" onclick="selectRoute(1)">
-          <div class="route-chip-label">Alternativa 1</div>
+          <div class="route-chip-label">Alternativa Secundaria</div>
           <div class="route-chip-val" id="r2-val">—</div>
         </div>
         <div class="route-chip" id="r3" onclick="selectRoute(2)">
-          <div class="route-chip-label">Alternativa 2</div>
+          <div class="route-chip-label">Alternativa Terciaria</div>
           <div class="route-chip-val" id="r3-val">—</div>
         </div>
       </div>
@@ -458,8 +494,8 @@ body{background:var(--c-bg);color:var(--c-text);font-family:var(--font-body);fon
   <!-- TAB: HISTORY -->
   <div id="tab-content-history" style="display:none;flex:1;overflow-y:auto">
     <div class="content-screen">
-      <div class="page-title">Historial de rutas</div>
-      <div class="page-sub">Tus últimas 10 rutas calculadas (estructura: Pila LIFO)</div>
+      <div class="page-title">Registro de Desplazamientos</div>
+      <div class="page-sub">Consulta del registro histórico de rutas procesadas en el sistema.</div>
       <div class="history-list" id="history-list"></div>
     </div>
   </div>
@@ -467,8 +503,8 @@ body{background:var(--c-bg);color:var(--c-text);font-family:var(--font-body);fon
   <!-- TAB: FAVORITES -->
   <div id="tab-content-favs" style="display:none;flex:1;overflow-y:auto">
     <div class="content-screen">
-      <div class="page-title">Ubicaciones favoritas</div>
-      <div class="page-sub">Guarda hasta 5 orígenes frecuentes para calcular rutas rápidamente</div>
+      <div class="page-title">Ubicaciones Frecuentes</div>
+      <div class="page-sub">Administración de puntos de origen predeterminados para cálculos acelerados.</div>
       <div class="fav-grid" id="fav-grid"></div>
     </div>
   </div>
@@ -479,20 +515,20 @@ body{background:var(--c-bg);color:var(--c-text);font-family:var(--font-body);fon
 <!-- Modal agregar favorito -->
 <div class="modal-bg" id="modal-fav">
   <div class="modal">
-    <div class="modal-title">➕ Agregar ubicación favorita</div>
+    <div class="modal-title">➕ Registrar Ubicación Frecuente</div>
     <div class="form-group">
-      <label class="form-label" for="fav-name">Nombre del lugar</label>
-      <input class="form-input" id="fav-name" placeholder="Mi casa, Trabajo, etc."/>
-      <div class="form-error" id="err-fav-name">Ingresa un nombre para el lugar</div>
+      <label class="form-label" for="fav-name">Identificador del lugar</label>
+      <input class="form-input" id="fav-name" placeholder="Ej. Residencia, Oficina, etc."/>
+      <div class="form-error" id="err-fav-name">El identificador no puede quedar vacío.</div>
     </div>
     <div class="form-group">
-      <label class="form-label" for="fav-addr">Dirección o referencia</label>
-      <input class="form-input" id="fav-addr" placeholder="Urb. Las Flores, Chiclayo"/>
-      <div class="form-error" id="err-fav-addr">Ingresa la dirección del lugar</div>
+      <label class="form-label" for="fav-addr">Dirección Específica</label>
+      <input class="form-input" id="fav-addr" placeholder="Ej. Av. Luis Gonzales 120, Chiclayo"/>
+      <div class="form-error" id="err-fav-addr">Debe proveer una dirección referencial.</div>
     </div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
-      <button class="btn btn-primary" onclick="saveFav()">Guardar</button>
+      <button class="btn btn-primary" onclick="saveFav()">Almacenar Datos</button>
     </div>
   </div>
 </div>
@@ -501,6 +537,63 @@ body{background:var(--c-bg);color:var(--c-text);font-family:var(--font-body);fon
 <div class="toast" id="toast"></div>
 
 <script>
+// ════════════════════════════════════════
+//  AUTOCOMPLETADO (MEJORA AÑADIDA)
+// ════════════════════════════════════════
+const direccionesReferenciales = [
+  "Avenida Las Flores 123, Chiclayo", 
+  "Avenida Central 456, Chiclayo", 
+  "Calle Los Pinos 789, Chiclayo", 
+  "Plaza de Armas, Chiclayo",
+  "Óvalo Gutierrez, Chiclayo",
+  "Parque Kennedy, Chiclayo",
+  "Real Plaza Chiclayo",
+  "Hospital Almanzor Aguinaga",
+  "Aeropuerto José A. Quiñones",
+  "Avenida Balta 100",
+  "Mercado Modelo Chiclayo"
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+  const inputOrigin = document.getElementById('manual-origin');
+  const suggestionsList = document.getElementById('suggestions');
+
+  if(inputOrigin && suggestionsList) {
+    inputOrigin.addEventListener('input', () => {
+      const query = inputOrigin.value.toLowerCase();
+      suggestionsList.innerHTML = ''; 
+      
+      if (!query) { 
+        suggestionsList.style.display = 'none'; 
+        return; 
+      }
+      
+      const filtrados = direccionesReferenciales.filter(r => r.toLowerCase().includes(query));
+      
+      if (filtrados.length) {
+        suggestionsList.style.display = 'block';
+        filtrados.forEach(match => {
+          const li = document.createElement('li');
+          li.textContent = match;
+          li.onclick = () => { 
+            inputOrigin.value = match; 
+            suggestionsList.style.display = 'none'; 
+            clearErrors('origin'); // Limpiamos el error si existía al seleccionar una opción válida
+          };
+          suggestionsList.appendChild(li);
+        });
+      } else { 
+        suggestionsList.style.display = 'none'; 
+      }
+    });
+
+    document.addEventListener('click', e => { 
+      if(e.target !== inputOrigin) suggestionsList.style.display = 'none'; 
+    });
+  }
+});
+
+
 // ════════════════════════════════════════
 //  STATE
 // ════════════════════════════════════════
@@ -520,10 +613,10 @@ const USS_LNG = -79.8857;
 const USS_NAME = 'Universidad Señor de Sipán';
 
 const TRANSPORT_CONFIG = {
-  auto:     { speed:40, costPerKm:2.2,  label:'Auto',     icon:'🚗', trafficMultiplier: 1.5 },
-  bus:      { speed:25, costPerKm:0.45,  label:'Bus',      icon:'🚌', trafficMultiplier: 1.4 },
-  mototaxi: { speed:20, costPerKm:1.8,  label:'Mototaxi', icon:'🛺', trafficMultiplier: 1.1 },
-  walk:     { speed:5,  costPerKm:0,    label:'Caminando',icon:'🚶', trafficMultiplier: 2.0 }
+  auto:     { speed:40, costPerKm:2.2,  label:'Vehículo Particular',     icon:'🚗', trafficMultiplier: 1.5 },
+  bus:      { speed:25, costPerKm:0.45,  label:'Transporte Público',      icon:'🚌', trafficMultiplier: 1.4 },
+  mototaxi: { speed:20, costPerKm:1.8,  label:'Transporte Ligero', icon:'🛺', trafficMultiplier: 1.1 },
+  walk:     { speed:5,  costPerKm:0,    label:'Peatonal',icon:'🚶', trafficMultiplier: 2.0 }
 };
 
 // Guardará las rutas físicas alternativas dibujadas en el mapa
@@ -533,7 +626,6 @@ let calculatedRoutesData = [];
 //  CONTRASEÑA VISIBLE / OCULTA
 // ════════════════════════════════════════
 const iconEye = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>`;
-
 const iconEyeOff = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/></svg>`;
 
 function togglePassword(inputId, button) {
@@ -580,7 +672,6 @@ function setError(id, show){
   if(input) input.classList.toggle('error', show);
 }
 function clearErrors(...ids){ ids.forEach(id=>setError(id,false)); }
-
 function isValidEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
 
 // ════════════════════════════════════════
@@ -620,18 +711,18 @@ function doRegister(){
   const users = getUsers();
   if(users.find(u=>u.email===email)){
     setError('reg-email',true);
-    document.getElementById('err-reg-email').textContent='Este correo ya está registrado';
+    document.getElementById('err-reg-email').textContent='Este identificador de correo ya está registrado en el sistema.';
     return;
   }
   const newUser = {name,email,pass};
   users.push(newUser);
   saveUsers(users);
   loginSuccess(newUser);
-  showToast('¡Cuenta creada exitosamente! 🎉','success');
+  showToast('¡Cuenta institucional creada con éxito!','success');
 }
 
 function goDemo(){
-  const demo = {name:'Usuario Demo',email:'demo@rutauss.pe',pass:'demo123'};
+  const demo = {name:'Usuario Invitado',email:'invitado@uss.edu.pe',pass:'uss123456'};
   const users = getUsers();
   if(!users.find(u=>u.email===demo.email)){ users.push(demo); saveUsers(users); }
   loginSuccess(demo);
@@ -668,8 +759,9 @@ function saveCurrentData(){
 function initMap(){
   if(mapInstance) return;
   mapInstance = L.map('map').setView([-6.7800, -79.8700], 13);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-    attribution:'© OpenStreetMap contributors',
+  
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     maxZoom:19
   }).addTo(mapInstance);
 
@@ -678,24 +770,23 @@ function initMap(){
       <span style="transform:rotate(45deg);font-size:16px">🎓</span>
     </div>`,iconSize:[36,36],iconAnchor:[18,36]});
   
-  const fotoUSS = "https://kfe1.sfo2.cdn.digitaloceanspaces.com/uss/galeria/1614008125-11-galeria.jpg";
   const streetViewUSS = `https://www.google.com/maps?layer=c&cbll=${USS_LAT},${USS_LNG}`;
 
   destMarker = L.marker([USS_LAT,USS_LNG],{icon:ussIcon})
     .addTo(mapInstance)
     .bindPopup(`
-      <div style="width: 200px; text-align: center;">
-        <img src="${fotoUSS}" alt="Campus USS" style="width: 100%; border-radius: 8px; margin-bottom: 8px;">
-        <b style="font-size: 14px; color: #3b82f6;">Universidad Señor de Sipán</b><br>
-        <span style="font-size: 12px; color: #64748b; display:block; margin-bottom:12px;">Chiclayo / Pimentel</span>
+      <div style="width: 200px; text-align: center; font-family:var(--font-body);">
+        <div style="font-size: 3rem; margin-bottom: 8px;">🏫</div>
+        <b style="font-size: 14px; color: var(--c-accent);">Universidad Señor de Sipán</b><br>
+        <span style="font-size: 12px; color: var(--c-muted); display:block; margin-bottom:12px;">Campus Central</span>
         <a href="${streetViewUSS}" target="_blank" style="background:#f59e0b; color:white; padding:8px 10px; text-decoration:none; border-radius:6px; font-size:12px; font-weight:bold; display:block; transition: background 0.2s;">
-          🚶‍♂️ Ver en Street View (360°)
+          🚶‍♂️ Vista 360° del Campus
         </a>
       </div>
     `);
 
   mapInstance.on('click',function(e){
-    setOriginMarker(e.latlng.lat, e.latlng.lng, 'Ubicación seleccionada en el mapa');
+    setOriginMarker(e.latlng.lat, e.latlng.lng, 'Coordenada seleccionada manualmente');
   });
 }
 
@@ -703,43 +794,43 @@ function setOriginMarker(lat,lng,label){
   gpsCoords = {lat,lng};
   if(originMarker) mapInstance.removeLayer(originMarker);
   const icon = L.divIcon({className:'',html:`
-    <div style="background:#3b82f6;color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.4);font-size:14px">📍</div>`,
+    <div style="background:var(--c-accent);color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.4);font-size:14px">📍</div>`,
     iconSize:[32,32],iconAnchor:[16,16]});
 
   const streetViewOrigin = `https://www.google.com/maps?layer=c&cbll=${lat},${lng}`;
 
   originMarker = L.marker([lat,lng],{icon}).addTo(mapInstance).bindPopup(`
-    <div style="text-align: center; min-width: 140px;">
-        <b style="font-size: 14px; color: #3b82f6;">Tu punto de partida</b><br>
-        <span style="font-size: 12px; color: #64748b; display:block; margin-bottom:12px;">${label}</span>
+    <div style="text-align: center; min-width: 140px; font-family:var(--font-body);">
+        <b style="font-size: 14px; color: var(--c-accent);">Punto de Partida</b><br>
+        <span style="font-size: 12px; color: var(--c-muted); display:block; margin-bottom:12px;">${label}</span>
         <a href="${streetViewOrigin}" target="_blank" style="background:#f59e0b; color:white; padding:6px 10px; text-decoration:none; border-radius:6px; font-size:12px; font-weight:bold; display:block;">
-          👀 Ver calle (360°)
+          👀 Inspección Visual (360°)
         </a>
     </div>
   `);
 
   document.getElementById('gps-btn').className='detect-btn found';
   document.getElementById('gps-icon').textContent='✅';
-  document.getElementById('gps-text').textContent=`GPS: ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+  document.getElementById('gps-text').textContent=`Coordenadas: ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
 }
 
 function detectGPS(){
   const btn = document.getElementById('gps-btn');
   btn.className='detect-btn detecting';
-  document.getElementById('gps-text').textContent='Obteniendo ubicación...';
-  if(!navigator.geolocation){ showToast('GPS no disponible en este navegador','error'); return; }
+  document.getElementById('gps-text').textContent='Sincronizando con satélites GPS...';
+  if(!navigator.geolocation){ showToast('La API de geolocalización no está disponible en este dispositivo.','error'); return; }
   navigator.geolocation.getCurrentPosition(
     pos=>{
       const {latitude:lat,longitude:lng}=pos.coords;
-      setOriginMarker(lat,lng,'Tu ubicación GPS real');
+      setOriginMarker(lat,lng,'Geolocalización Activa');
       mapInstance.setView([lat,lng],14);
-      showToast('Ubicación GPS detectada ✓','success');
+      showToast('Posicionamiento GPS establecido con éxito.','success');
     },
     ()=>{
       const lat=-6.7714, lng=-79.8399;
-      setOriginMarker(lat,lng,'Centro de Chiclayo (sin permiso GPS)');
+      setOriginMarker(lat,lng,'Ubicación base (Accesos GPS denegados)');
       mapInstance.setView([lat,lng],13);
-      showToast('Se usó ubicación por defecto (Chiclayo)','info');
+      showToast('Parámetros de geolocalización bloqueados. Utilizando punto de referencia.','info');
     }
   );
 }
@@ -761,11 +852,11 @@ function updateWeights(){
   const sumEl=document.getElementById('weight-sum');
   if(sum===100){
     sumEl.className='weight-sum ok';
-    sumEl.textContent='✓ Total: 100% — pesos válidos';
+    sumEl.textContent='✓ Sumatoria total: 100% — Parámetros aprobados';
     document.getElementById('btn-calc').disabled=false;
   } else {
     sumEl.className='weight-sum bad';
-    sumEl.textContent=`⚠ Total: ${sum}% — debe ser exactamente 100%`;
+    sumEl.textContent=`⚠ Sumatoria Actual: ${sum}% — Requiere ajuste al 100% exacto`;
     document.getElementById('btn-calc').disabled=true;
   }
 }
@@ -777,7 +868,7 @@ function calcularRuta(){
   const manual = document.getElementById('manual-origin').value.trim();
   if(!gpsCoords && !manual){
     setError('origin',true);
-    showToast('Indica tu punto de origen primero','error');
+    showToast('Requerido: Establezca un punto de partida válido.','error');
     return;
   }
   clearErrors('origin');
@@ -788,7 +879,7 @@ function calcularRuta(){
   drawRealRoute(originLat, originLng, USS_LAT, USS_LNG);
 }
 
-const ROUTE_COLORS = ['#3b82f6','#f59e0b','#a855f7'];
+const ROUTE_COLORS = ['#662483','#f59e0b','#0284c7'];
 let allRouteLayers = [];
 
 async function drawRealRoute(oLat, oLng, dLat, dLng){
@@ -796,7 +887,7 @@ async function drawRealRoute(oLat, oLng, dLat, dLng){
   allRouteLayers=[];
   calculatedRoutesData=[];
 
-  showToast('Calculando rutas inteligentes por calles...','info');
+  showToast('Procesando algoritmos de ruteo óptimo...','info');
 
   const profile = selectedTransport === 'walk' ? 'foot' : 'driving';
   const url = `https://router.project-osrm.org/route/v1/${profile}/${oLng},${oLat};${dLng},${dLat}?overview=full&geometries=geojson&alternatives=true`;
@@ -806,8 +897,8 @@ async function drawRealRoute(oLat, oLng, dLat, dLng){
     const data = await res.json();
 
     if(!data.routes || data.routes.length===0){
-      showToast('No se encontró ruta física. Mostrando línea directa de emergencia.','error');
-      const layer = L.polyline([[oLat,oLng],[dLat,dLng]],{color:'#3b82f6',weight:4,dashArray:'8 4'}).addTo(mapInstance);
+      showToast('No fue posible trazar vías terrestres. Trazando vector directo.','error');
+      const layer = L.polyline([[oLat,oLng],[dLat,dLng]],{color:'#662483',weight:4,dashArray:'8 4'}).addTo(mapInstance);
       allRouteLayers.push(layer);
       mapInstance.fitBounds([[oLat,oLng],[dLat,dLng]],{padding:[60,60]});
       return;
@@ -819,47 +910,32 @@ async function drawRealRoute(oLat, oLng, dLat, dLng){
     const w3 = parseInt(document.getElementById('w3').value)/100;
     const cfg = TRANSPORT_CONFIG[selectedTransport];
 
-    // Procesamos la ruta principal real (Índice 0) devuelta por OSRM
     const mainRoute = data.routes[0];
     const mainCoords = mainRoute.geometry.coordinates.map(c=>[c[1],c[0]]);
-    const baseDistance = mainRoute.distance / 1000; // Distancia en kilómetros
+    const baseDistance = mainRoute.distance / 1000;
 
-    // Creamos un array temporal para estructurar nuestras 3 alternativas lógicas
     let rawRoutes = [];
 
-    // 1. Añadimos la ruta óptima principal real
     rawRoutes.push({
       coords: mainCoords,
       distanceMultiplier: 1.0,
       speedMultiplier: 1.0
     });
 
-    // 2. Generamos la Alternativa 1 (Desvío norte/este moderado)
-    // Desplaza ligeramente los puntos medios de la ruta real para simular un trayecto paralelo lógico
     const alt1Coords = mainCoords.map((coord, idx) => {
-      if (idx === 0 || idx === mainCoords.length - 1) return coord; // Mantener origen y destino fijos
-      const factor = Math.sin((idx / mainCoords.length) * Math.PI); // Curva suave
+      if (idx === 0 || idx === mainCoords.length - 1) return coord;
+      const factor = Math.sin((idx / mainCoords.length) * Math.PI);
       return [coord[0] + 0.0018 * factor, coord[1] + 0.0018 * factor];
     });
-    rawRoutes.push({
-      coords: alt1Coords,
-      distanceMultiplier: 1.12, // 12% más de distancia
-      speedMultiplier: 0.88      // Un poco más lenta por tráfico
-    });
+    rawRoutes.push({ coords: alt1Coords, distanceMultiplier: 1.12, speedMultiplier: 0.88 });
 
-    // 3. Generamos la Alternativa 2 (Desvío sur/oeste amplio o avenida auxiliar)
     const alt2Coords = mainCoords.map((coord, idx) => {
-      if (idx === 0 || idx === mainCoords.length - 1) return coord; // Mantener origen y destino fijos
+      if (idx === 0 || idx === mainCoords.length - 1) return coord;
       const factor = Math.sin((idx / mainCoords.length) * Math.PI);
       return [coord[0] - 0.0022 * factor, coord[1] - 0.0022 * factor];
     });
-    rawRoutes.push({
-      coords: alt2Coords,
-      distanceMultiplier: 1.25, // 25% más de distancia
-      speedMultiplier: 1.05      // Un poco más rápida de flujo
-    });
+    rawRoutes.push({ coords: alt2Coords, distanceMultiplier: 1.25, speedMultiplier: 1.05 });
 
-    // Dibujamos e inyectamos las 3 rutas en el sistema de visualización
     rawRoutes.forEach((route, i) => {
       const isBest = i === 0;
       
@@ -873,13 +949,11 @@ async function drawRealRoute(oLat, oLng, dLat, dLng){
       allRouteLayers.push(layer);
       route.coords.forEach(c => bounds.push(c));
 
-      // Cálculo de métricas realistas
       const routeDistance = baseDistance * route.distanceMultiplier;
       const routeSpeed = cfg.speed * route.speedMultiplier;
       const computedTime = (routeDistance / routeSpeed) * 60 * cfg.trafficMultiplier;
       const computedCost = routeDistance * cfg.costPerKm;
 
-      // Cálculo de score normalizado para el algoritmo
       const dn = routeDistance / baseDistance;
       const tn = computedTime / ((baseDistance / cfg.speed) * 60 * cfg.trafficMultiplier) || 0;
       const cn = computedCost > 0 ? (computedCost / (baseDistance * cfg.costPerKm)) : 0;
@@ -894,14 +968,13 @@ async function drawRealRoute(oLat, oLng, dLat, dLng){
         coords: route.coords,
         layer: layer,
         w1, w2, w3,
-        formulaText: `<strong>Score</strong> = ${w1.toFixed(2)}×(${routeDistance.toFixed(1)}/dist_base) + ${w2.toFixed(2)}×(${Math.round(computedTime)}/tiempo_base) + ${w3.toFixed(2)}×(${computedCost.toFixed(2)}/costo_base) = <strong>${score.toFixed(4)}</strong>`
+        formulaText: `<strong>Score</strong> = ${w1.toFixed(2)}×(${routeDistance.toFixed(1)}/d) + ${w2.toFixed(2)}×(${Math.round(computedTime)}/t) + ${w3.toFixed(2)}×(${computedCost.toFixed(2)}/c) = <strong>${score.toFixed(4)}</strong>`
       });
 
-      const label = i === 0 ? '🏆 Ruta óptima' : `Alternativa ${i}`;
-      layer.bindPopup(`<b>${label}</b><br>${routeDistance.toFixed(1)} km · ${Math.round(computedTime)} min`);
+      const label = i === 0 ? '🏆 Vía Recomendada' : `Vía Alternativa ${i}`;
+      layer.bindPopup(`<b style="font-family:var(--font-body);">${label}</b><br>${routeDistance.toFixed(1)} km · ${Math.round(computedTime)} min`);
     });
 
-    // Rellenar visualmente los chips inferiores de selección de alternativas
     const labels = ['r1-val', 'r2-val', 'r3-val'];
     const chips = ['r1', 'r2', 'r3'];
     
@@ -915,16 +988,13 @@ async function drawRealRoute(oLat, oLng, dLat, dLng){
       }
     }
 
-    // Inicializar visualizando la mejor opción por defecto
     selectRoute(0);
-
     mapInstance.fitBounds(bounds, {padding:[60,60]});
     document.getElementById('result-overlay').classList.add('show');
 
-    // Registrar acción en la pila del Historial
     const bestRoute = calculatedRoutesData[0];
     const manualInput = document.getElementById('manual-origin').value.trim();
-    const originLabel = gpsCoords ? 'Mi ubicación GPS' : (manualInput || 'Centro de Chiclayo');
+    const originLabel = gpsCoords ? 'Coordenadas GPS' : (manualInput || 'Punto de Referencia Central');
     const entry = {
       id: Date.now(),
       origin: originLabel,
@@ -942,72 +1012,57 @@ async function drawRealRoute(oLat, oLng, dLat, dLng){
     historyStack.unshift(entry);
     if(historyStack.length > 10) historyStack.pop();
     saveCurrentData();
-    showToast(`Rutas dinámicas generadas con éxito ✓`,'success');
+    showToast(`Análisis topológico completado. Resultados generados.`,'success');
 
   } catch(err){
     console.error(err);
-    showToast('Error al procesar las rutas del mapa.','error');
+    showToast('Falla en la respuesta de los servidores de enrutamiento.','error');
   }
 }
-// ════════════════════════════════════════
-//  SELECCIÓN INTERACTIVA DE ALTERNATIVAS
-// ════════════════════════════════════════
+
 function selectRoute(index) {
   const routeData = calculatedRoutesData[index];
   if(!routeData) return;
 
-  // Actualizar clases activas en los botones de rutas alternativas
   const chips = ['r1', 'r2', 'r3'];
   chips.forEach((id, i) => {
     const el = document.getElementById(id);
     if (el) {
-      if(i === index) {
-        el.classList.add('active-route');
-      } else {
-        el.classList.remove('active-route');
-      }
+      if(i === index) el.classList.add('active-route');
+      else el.classList.remove('active-route');
     }
   });
 
-  // Resaltar visualmente en el mapa la ruta seleccionada
   calculatedRoutesData.forEach((r) => {
     if (r.index === index) {
       r.layer.setStyle({ weight: 7, opacity: 1.0 });
       r.layer.bringToFront();
       r.layer.openPopup();
     } else {
-      r.layer.setStyle({ weight: 3, opacity: 0.4 });
+      r.layer.setStyle({ weight: 4, opacity: 0.4 });
     }
   });
 
-  // Cambiar los números generales del panel superior
   document.getElementById('res-dist').textContent = routeData.distance.toFixed(1)+' km';
   document.getElementById('res-time').textContent = Math.round(routeData.time)+' min';
-  document.getElementById('res-cost').textContent = routeData.cost>0?'S/. '+routeData.cost.toFixed(2):'Gratis';
+  document.getElementById('res-cost').textContent = routeData.cost>0?'S/ '+routeData.cost.toFixed(2):'Sin costo';
   document.getElementById('res-score').textContent = routeData.score.toFixed(3);
   document.getElementById('res-formula').innerHTML = routeData.formulaText;
 }
 
-// ════════════════════════════════════════
-//  TRANSPORT
-// ════════════════════════════════════════
 function selectTransport(t, el){
   selectedTransport=t;
   document.querySelectorAll('.transport-opt').forEach(o=>o.classList.remove('selected'));
   el.classList.add('selected');
-  // Re-calcular dinámicamente si ya hay un punto de partida
   if(gpsCoords || document.getElementById('manual-origin').value.trim()){
     calcularRuta();
   }
 }
 
-// ════════════════════════════════════════
-//  HISTORY
-// ════════════════════════════════════════
 function renderHistory(){
   const list=document.getElementById('history-list');
   if(!historyStack.length){
-    list.innerHTML=`<div class="empty-state"><div class="empty-icon">🗺️</div><div class="empty-text">Aún no has calculado ninguna ruta.<br>¡Usa el mapa para empezar!</div></div>`;
+    list.innerHTML=`<div class="empty-state"><div class="empty-icon">🗺️</div><div class="empty-text">El registro histórico se encuentra vacío.<br>Proceda a evaluar una ruta en el mapa principal.</div></div>`;
     return;
   }
   list.innerHTML=historyStack.map((r,i)=>`
@@ -1020,15 +1075,15 @@ function renderHistory(){
       <div class="hist-stats">
         <div>
           <div class="hist-stat-val">${r.dist} km</div>
-          <div class="hist-stat-label">Distancia</div>
+          <div class="hist-stat-label">Longitud</div>
         </div>
         <div>
           <div class="hist-stat-val">${r.time} min</div>
-          <div class="hist-stat-label">Tiempo</div>
+          <div class="hist-stat-label">Duración</div>
         </div>
         <div>
-          <div class="hist-stat-val">${parseFloat(r.cost)>0?'S/'+r.cost:'Gratis'}</div>
-          <div class="hist-stat-label">Costo</div>
+          <div class="hist-stat-val">${parseFloat(r.cost)>0?'S/ '+r.cost:'Sin costo'}</div>
+          <div class="hist-stat-label">Gasto Est.</div>
         </div>
       </div>
       <div class="hist-transport-badge">${r.icon} ${TRANSPORT_CONFIG[r.transport]?.label||r.transport}</div>
@@ -1036,9 +1091,6 @@ function renderHistory(){
   `).join('');
 }
 
-// ════════════════════════════════════════
-//  FAVORITES
-// ════════════════════════════════════════
 function renderFavs(){
   const grid=document.getElementById('fav-grid');
   const favCards=favorites.map((f,i)=>`
@@ -1052,7 +1104,7 @@ function renderFavs(){
   const addBtn = favorites.length<5 ? `
     <div class="fav-add" onclick="openFavModal()">
       <div class="fav-add-icon">➕</div>
-      <div class="fav-add-label">Agregar favorito</div>
+      <div class="fav-add-label">Registrar Ubicación</div>
     </div>` : '';
   grid.innerHTML=favCards+addBtn;
 }
@@ -1074,26 +1126,23 @@ function saveFav(){
   document.getElementById('fav-name').value='';
   document.getElementById('fav-addr').value='';
   renderFavs();
-  showToast('Favorito guardado ✓','success');
+  showToast('Registro de ubicación almacenado exitosamente.','success');
 }
 
 function deleteFav(i){
   favorites.splice(i,1);
   saveCurrentData();
   renderFavs();
-  showToast('Favorito eliminado','info');
+  showToast('Registro eliminado de la base de datos.','info');
 }
 
 function useFav(i){
   const f=favorites[i];
   document.getElementById('manual-origin').value=f.addr;
   showTab('map');
-  showToast(`Origen: ${f.name}. Ahora calcula tu ruta ↗`,'info');
+  showToast(`Punto de referencia seleccionado: ${f.name}. Listo para procesar.`,'info');
 }
 
-// ════════════════════════════════════════
-//  TOAST
-// ════════════════════════════════════════
 let toastTimer;
 function showToast(msg, type='info'){
   const t=document.getElementById('toast');
@@ -1103,9 +1152,6 @@ function showToast(msg, type='info'){
   toastTimer=setTimeout(()=>t.classList.remove('show'),3500);
 }
 
-// ════════════════════════════════════════
-//  INIT
-// ════════════════════════════════════════
 updateWeights();
 </script>
 </body>
